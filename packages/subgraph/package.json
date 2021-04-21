@@ -1,15 +1,26 @@
 {
   "name": "@project/subgraph",
   "version": "1.0.0",
-  "dependencies": {
-    "@graphprotocol/graph-cli": "0.18.0",
-    "@graphprotocol/graph-ts": "0.18.1"
-  },
   "license": "MIT",
   "scripts": {
-    "auth": "graph auth https://api.thegraph.com/ $GRAPH_ACCESS_TOKEN",
+    "auth": "graph auth https://api.thegraph.com/ 9353623f25364d729925b66b4e6fcdb5",
     "build": "graph build",
     "codegen": "graph codegen --output-dir src/types/",
-    "deploy": "graph deploy paulrberg/create-eth-app --ipfs https://api.thegraph.com/ipfs/ --node https://api.thegraph.com/deploy/"
+    "deploy": "graph deploy krouspy/the-graph-sandbox --ipfs https://api.thegraph.com/ipfs/ --node https://api.thegraph.com/deploy/",
+    "create-local": "graph create krouspy/the-graph-sandbox --node http://127.0.0.1:8020",
+    "deploy-local": "graph deploy krouspy/the-graph-sandbox --ipfs http://localhost:5001 --node http://127.0.0.1:8020",
+    "subgraph": "ts-node ./src/contracts/app.ts"
+  },
+  "dependencies": {
+    "@graphprotocol/graph-cli": "0.18.0",
+    "@graphprotocol/graph-ts": "0.18.1",
+    "@project/helpers": "1.0.0",
+    "dotenv": "^8.2.0"
+  },
+  "devDependencies": {
+    "@types/dotenv": "^8.2.0",
+    "@types/node": "^14.14.37",
+    "ts-node": "^9.1.1",
+    "typescript": "^4.2.4"
   }
 }

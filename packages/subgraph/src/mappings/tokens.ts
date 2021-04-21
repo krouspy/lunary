@@ -1,21 +1,26 @@
-import { Token } from "../types/schema";
+import { ERC20, ERC721 } from '../types/schema';
 
-export function addToken(address: string): void {
-  let token = Token.load(address);
+export function addERC20(address: string): void {
+  let token = ERC20.load(address);
   if (token != null) {
     return;
   }
 
-  token = new Token(address);
-  if (address == "0xc1c0472c0c80bccdc7f5d01a376bd97a734b8815") {
-    token.decimals = 18;
-    token.name = "CeaErc20";
-    token.symbol = "CEAERC20";
-  } else {
-    token.decimals = 0;
-    token.name = null;
-    token.symbol = null;
+  token = new ERC20(address);
+  token.decimals = 18;
+  token.name = 'Luna';
+  token.symbol = 'Luna';
+  token.save();
+}
+
+export function addERC721(address: string): void {
+  let token = ERC721.load(address);
+  if (token != null) {
+    return;
   }
 
+  token = new ERC721(address);
+  token.name = 'NFT';
+  token.symbol = 'NFT';
   token.save();
 }

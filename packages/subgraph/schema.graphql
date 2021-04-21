@@ -1,13 +1,40 @@
-type Token @entity {
+type Marketplace @entity {
+  id: ID!
+  erc20Address: String!
+  erc721Address: String!
+}
+
+type ERC20 @entity {
   id: ID!
   decimals: Int
   name: String
   symbol: String
 }
 
-type Transfer @entity {
+type ERC721 @entity {
+  id: ID!
+  name: String
+  symbol: String
+}
+
+type ERC20Transfer @entity {
   id: ID!
   from: String!
   to: String!
   value: BigInt!
+}
+
+type NFTCreated @entity {
+  id: ID!
+  tokenId: BigInt!
+  owner: String!
+  category: String!
+  price: BigInt!
+}
+
+type NFTBought @entity {
+  id: ID!
+  seller: String!
+  buyer: String!
+  price: BigInt!
 }

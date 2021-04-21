@@ -1,26 +1,66 @@
 specVersion: 0.0.2
-description: Subgraph that indexes the blockchain data
-repository: https://github.com/sablierhq/sablier-subgraph
+description: Subgraph that indexes Lunary data
+repository: https://github.com/krouspy/the-graph-test
 schema:
   file: ./schema.graphql
 dataSources:
   - kind: ethereum/contract
-    name: CeaErc20
+    name: Luna
     network: mainnet
     source:
       abi: erc20
-      address: "0xc1C0472c0C80bCcDC7F5D01A376Bd97a734B8815"
+      address: '0x5FbDB2315678afecb367f032d93F642f64180aa3'
     mapping:
       kind: ethereum/events
-      apiVersion: 0.0.3
+      apiVersion: 0.0.4
       abis:
         - name: erc20
-          file: ../contracts/src/abis/erc20.json
+          file: src/contracts/abis/erc20.json
       entities:
-        - Token
-        - Transfer
+        - ERC20
+        - ERC20Transfer
       eventHandlers:
         - event: Transfer(indexed address,indexed address,uint256)
-          handler: handleTransfer
+          handler: handleERC20Transfer
       file: ./src/mappings/transfers.ts
+      language: wasm/assemblyscript
+  - kind: ethereum/contract
+    name: NFT
+    network: mainnet
+    source:
+      abi: erc721
+      address: '0xe7f1725E7734CE288F8367e1Bb143E90bb3F0512'
+    mapping:
+      kind: ethereum/events
+      apiVersion: 0.0.4
+      abis:
+        - name: erc721
+          file: src/contracts/abis/erc721.json
+      entities:
+        - ERC721
+        - NFTCreated
+      eventHandlers:
+        - event: NFTCreated(indexed uint256,indexed address,indexed string,uint256)
+          handler: handleCreateNFT
+      file: ./src/mappings/marketplace.ts
+      language: wasm/assemblyscript
+  - kind: ethereum/contract
+    name: Lunary
+    network: mainnet
+    source:
+      abi: marketplace
+      address: '0x9fE46736679d2D9a65F0992F2272dE9f3c7fa6e0'
+    mapping:
+      kind: ethereum/events
+      apiVersion: 0.0.4
+      abis:
+        - name: marketplace
+          file: src/contracts/abis/marketplace.json
+      entities:
+        - Marketplace
+        - NFTBought
+      eventHandlers:
+        - event: NFTBought(indexed address,indexed address,indexed uint256)
+          handler: handleNFTBought
+      file: ./src/mappings/marketplace.ts
       language: wasm/assemblyscript

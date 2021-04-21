@@ -1,13 +1,13 @@
-import { Transfer } from "../types/schema";
-import { Transfer as TransferEvent } from "../types/CeaErc20/erc20";
-import { addToken } from "./tokens";
+import { ERC20Transfer } from '../types/schema';
+import { Transfer as ERC20TransferEvent } from '../types/Luna/erc20';
+import { addERC20 } from './tokens';
 
-export function handleTransfer(event: TransferEvent): void {
+export function handleERC20Transfer(event: ERC20TransferEvent): void {
   let transactionHash = event.transaction.hash.toHex();
-  let transfer = new Transfer(transactionHash);
+  let transfer = new ERC20Transfer(transactionHash);
   transfer.from = event.params.from.toHex();
   transfer.to = event.params.to.toHex();
   transfer.value = event.params.value;
   transfer.save();
-  addToken(event.transaction.to.toHex());
+  addERC20(event.transaction.to.toHex());
 }
