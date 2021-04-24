@@ -6,11 +6,11 @@ import "./Roles.sol";
 
 
 contract NFT is Roles, ERC721 {
-    event NFTCreated(uint256 indexed tokenId, address indexed owner, string indexed category, uint256 price);
+    event NFTCreated(uint256 indexed tokenId, address indexed owner, bytes32 indexed category, uint256 price);
 
     struct Item {
         uint256 price;
-        string category;
+        bytes32 category;
     }
 
     uint256 private _totalTokens;
@@ -31,7 +31,7 @@ contract NFT is Roles, ERC721 {
         return _items[tokenId].price;
     }
 
-    function createItem(address owner, uint256 price, string memory category) onlyWhitelisted public returns (bool) {
+    function createItem(address owner, uint256 price, bytes32 category) onlyWhitelisted public returns (bool) {
         _safeMint(owner, _totalTokens);
         _items[_totalTokens] = Item(price, category);
         _totalTokens++;

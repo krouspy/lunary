@@ -21,7 +21,7 @@ export function handleCreateNFT(event: NFTCreatedEvent): void {
   let nft = new NFTCreated(transactionHash);
   nft.tokenId = event.params.tokenId;
   nft.owner = event.params.owner.toHex();
-  nft.category = event.params.category.toHex();
+  nft.category = event.params.category.toString();
   nft.price = event.params.price;
   nft.save();
   addERC721(event.transaction.to.toHex());

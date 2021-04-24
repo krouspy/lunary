@@ -17,7 +17,7 @@ contract Lunary is Ownable {
         _nft = nft;
     }
 
-    function createNFT(uint256 price, string memory category) public returns (bool) {
+    function createNFT(uint256 price, bytes32 category) public returns (bool) {
         _nft.createItem(msg.sender, price, category);
         return true;
     }
