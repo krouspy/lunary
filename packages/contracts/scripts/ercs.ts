@@ -15,6 +15,21 @@ const erc20Name = 'Luna';
 const erc20Symbol = 'Luna';
 const erc721Name = 'NFT';
 const erc721Symbol = 'NFT';
+const nfts = {
+  art: {
+    category: hre.ethers.utils.formatBytes32String('art'),
+    uri:
+      'https://www.essence.com/wp-content/uploads/2019/11/GettyImages-1178654146-1920x1080.jpg?width=1920&height=1080',
+  },
+  videoGame: {
+    category: hre.ethers.utils.formatBytes32String('video game'),
+    uri: 'https://www.cryptonewspoint.com/wp-content/uploads/2020/09/NFT-Art.jpg',
+  },
+  sport: {
+    category: hre.ethers.utils.formatBytes32String('sport'),
+    uri: 'https://www.playtoearn.online/wp-content/uploads/2020/10/NBA-Top-Shot-artwork-header.png',
+  },
+};
 
 const serverBaseUri = process.env.SERVER_BASE_URI;
 
@@ -36,6 +51,9 @@ async function main() {
 
   await erc20.addToWhitelist(marketplace.address);
   await erc721.addToWhitelist(marketplace.address);
+  await marketplace.createNFT(300, nfts.art.category, nfts.art.uri);
+  await marketplace.createNFT(300, nfts.videoGame.category, nfts.videoGame.uri);
+  await marketplace.createNFT(300, nfts.sport.category, nfts.sport.uri);
 
   await api.registerOneContract('erc20', erc20Name, erc20.address, Luna.abi);
   await api.registerOneContract('erc721', erc721Name, erc721.address, NFT.abi);

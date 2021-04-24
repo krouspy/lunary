@@ -3,8 +3,9 @@ const { ethers } = require('hardhat');
 
 const name = 'NFT';
 const symbol = 'NFT';
-const category = 'art';
 const price = 100;
+const category = ethers.utils.formatBytes32String('art');
+const tokenURI = 'tokenURI';
 
 describe('ERC721', async () => {
   let erc721;
@@ -43,9 +44,9 @@ describe('ERC721', async () => {
 
       const totalTokensBefore = await erc721.getTotalTokens();
 
-      await expect(erc721.connect(addr1).createItem(addr1.address, price, category))
-        .to.emit(erc721, 'ItemCreated')
-        .withArgs(addr1.address, category, price);
+      await expect(erc721.connect(addr1).createItem(addr1.address, price, category, tokenURI))
+        .to.emit(erc721, 'NFTCreated')
+        .withArgs(totalTokensBefore, addr1.address, category, price);
 
       const [itemPrice, itemCategory] = await erc721.getItem(totalTokensBefore);
       const totalTokensAfter = await erc721.getTotalTokens();
@@ -60,7 +61,8 @@ describe('ERC721', async () => {
 
     it('should not create item from not whitelisted address', async () => {
       expect(await erc721.isWhitelisted(addr1.address)).to.equal(false);
-      await expect(erc721.connect(addr1).createItem(addr1.address, price, category)).to.be.reverted;
+      await expect(erc721.connect(addr1).createItem(addr1.address, price, category, tokenURI)).to.be
+        .reverted;
     });
   });
 
