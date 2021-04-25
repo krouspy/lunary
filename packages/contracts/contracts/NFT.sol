@@ -7,7 +7,7 @@ import "./Roles.sol";
 
 
 contract NFT is Roles, ERC721URIStorage {
-    event NFTCreated(uint256 indexed tokenId, address indexed owner, bytes32 indexed category, uint256 price);
+    event NFTCreated(uint256 indexed tokenId, address indexed owner, bytes32 indexed category, uint256 price, string tokenURI);
 
     using Counters for Counters.Counter;
     Counters.Counter private _tokenIds;
@@ -41,7 +41,7 @@ contract NFT is Roles, ERC721URIStorage {
         _setTokenURI(tokenId, tokenURI);
         _tokenIds.increment();
 
-        emit NFTCreated(tokenId, owner, category, price);
+        emit NFTCreated(tokenId, owner, category, price, tokenURI);
 
         return tokenId;
     }

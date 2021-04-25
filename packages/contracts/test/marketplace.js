@@ -41,7 +41,7 @@ describe('Marketplace', async () => {
     const tokenId = await erc721.getTotalTokens();
     await expect(marketplace.connect(addr1).createNFT(price, category, tokenURI))
       .to.emit(erc721, 'NFTCreated')
-      .withArgs(tokenId, addr1.address, category, price);
+      .withArgs(tokenId, addr1.address, category, price, tokenURI);
   });
 
   it('buyNFT(): caller should buy an NFT', async () => {

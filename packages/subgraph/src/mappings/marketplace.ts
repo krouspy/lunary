@@ -23,6 +23,7 @@ export function handleCreateNFT(event: NFTCreatedEvent): void {
   nft.owner = event.params.owner.toHex();
   nft.category = event.params.category.toString();
   nft.price = event.params.price;
+  nft.tokenURI = event.params.tokenURI.toString();
   nft.save();
   addERC721(event.transaction.to.toHex());
   addMarketplace(event);

@@ -46,13 +46,15 @@ describe('ERC721', async () => {
 
       await expect(erc721.connect(addr1).createItem(addr1.address, price, category, tokenURI))
         .to.emit(erc721, 'NFTCreated')
-        .withArgs(totalTokensBefore, addr1.address, category, price);
+        .withArgs(totalTokensBefore, addr1.address, category, price, tokenURI);
 
       const [itemPrice, itemCategory] = await erc721.getItem(totalTokensBefore);
+      const itemURI = await erc721.tokenURI(totalTokensBefore);
       const totalTokensAfter = await erc721.getTotalTokens();
 
       expect(itemPrice).to.equal(price, 'item price not set correctly');
       expect(itemCategory).to.equal(category, 'item category not set correctly');
+      expect(itemURI).to.equal(tokenURI, 'item uri not set correctly');
       expect(totalTokensBefore).to.equal(
         totalTokensAfter - 1,
         'totalTokens not incremented correctly',

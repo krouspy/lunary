@@ -40,7 +40,9 @@ dataSources:
         - ERC721
         - NFTCreated
       eventHandlers:
-        - event: NFTCreated(indexed uint256,indexed address,indexed bytes32,uint256)
+        - event: >-
+            NFTCreated(indexed uint256,indexed address,indexed
+            bytes32,uint256,string)
           handler: handleCreateNFT
       file: ./src/mappings/marketplace.ts
       language: wasm/assemblyscript
