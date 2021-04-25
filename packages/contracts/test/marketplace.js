@@ -1,6 +1,7 @@
 const { expect } = require('chai');
 const { ethers } = require('hardhat');
 
+const title = 'title';
 const price = 100;
 const category = ethers.utils.formatBytes32String('art');
 const tokenURI = 'tokenURI';
@@ -40,9 +41,11 @@ describe('Marketplace', async () => {
 
   it('createNFT(): should create an NFT for caller', async () => {
     const tokenId = await erc721.getTotalTokens();
-    await expect(marketplace.connect(addr1).createNFT(price, category, tokenURI, description))
+    await expect(
+      marketplace.connect(addr1).createNFT(title, price, category, tokenURI, description),
+    )
       .to.emit(erc721, 'NFTCreated')
-      .withArgs(tokenId, addr1.address, category, price, tokenURI, description);
+      .withArgs(tokenId, addr1.address, category, title, price, tokenURI, description);
   });
 
   it('buyNFT(): caller should buy an NFT', async () => {
@@ -51,7 +54,7 @@ describe('Marketplace', async () => {
     await erc20.connect(addr2).approve(marketplace.address, price);
 
     const tokenId = await erc721.getTotalTokens();
-    await marketplace.connect(addr1).createNFT(price, category, tokenURI, description);
+    await marketplace.connect(addr1).createNFT(title, price, category, tokenURI, description);
     await erc721.connect(addr1).approve(marketplace.address, tokenId);
 
     const seller = addr1.address;

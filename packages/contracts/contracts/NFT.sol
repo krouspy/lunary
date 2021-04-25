@@ -7,12 +7,13 @@ import "./Roles.sol";
 
 
 contract NFT is Roles, ERC721URIStorage {
-    event NFTCreated(uint256 indexed tokenId, address indexed owner, bytes32 indexed category, uint256 price, string tokenURI, string description);
+    event NFTCreated(uint256 indexed tokenId, address indexed owner, bytes32 indexed category, string title, uint256 price, string tokenURI, string description);
 
     using Counters for Counters.Counter;
     Counters.Counter private _tokenIds;
 
     struct Item {
+        string title;
         uint256 price;
         bytes32 category;
         string description;
@@ -34,15 +35,15 @@ contract NFT is Roles, ERC721URIStorage {
         return _items[tokenId].price;
     }
 
-    function createItem(address owner, uint256 price, bytes32 category, string memory tokenURI, string memory description) onlyWhitelisted public returns (uint256) {
+    function createItem(address owner, string memory title, uint256 price, bytes32 category, string memory tokenURI, string memory description) onlyWhitelisted public returns (uint256) {
         uint256 tokenId = _tokenIds.current();
 
         _safeMint(owner, tokenId);
-        _items[tokenId] = Item(price, category, description);
+        _items[tokenId] = Item(title, price, category, description);
         _setTokenURI(tokenId, tokenURI);
         _tokenIds.increment();
 
-        emit NFTCreated(tokenId, owner, category, price, tokenURI, description);
+        emit NFTCreated(tokenId, owner, category, title, price, tokenURI, description);
 
         return tokenId;
     }

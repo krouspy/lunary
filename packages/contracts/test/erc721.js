@@ -3,6 +3,7 @@ const { ethers } = require('hardhat');
 
 const name = 'NFT';
 const symbol = 'NFT';
+const title = 'title';
 const price = 100;
 const category = ethers.utils.formatBytes32String('art');
 const description = 'description';
@@ -46,15 +47,20 @@ describe('ERC721', async () => {
       const totalTokensBefore = await erc721.getTotalTokens();
 
       await expect(
-        erc721.connect(addr1).createItem(addr1.address, price, category, tokenURI, description),
+        erc721
+          .connect(addr1)
+          .createItem(addr1.address, title, price, category, tokenURI, description),
       )
         .to.emit(erc721, 'NFTCreated')
-        .withArgs(totalTokensBefore, addr1.address, category, price, tokenURI, description);
+        .withArgs(totalTokensBefore, addr1.address, category, title, price, tokenURI, description);
 
-      const [itemPrice, itemCategory, itemDescription] = await erc721.getItem(totalTokensBefore);
+      const [itemTitle, itemPrice, itemCategory, itemDescription] = await erc721.getItem(
+        totalTokensBefore,
+      );
       const itemURI = await erc721.tokenURI(totalTokensBefore);
       const totalTokensAfter = await erc721.getTotalTokens();
 
+      expect(itemTitle).to.equal(title, 'item title not set correctly');
       expect(itemPrice).to.equal(price, 'item price not set correctly');
       expect(itemCategory).to.equal(category, 'item category not set correctly');
       expect(itemURI).to.equal(tokenURI, 'item uri not set correctly');

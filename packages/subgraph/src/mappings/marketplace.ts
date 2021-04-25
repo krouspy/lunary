@@ -21,6 +21,7 @@ export function handleCreateNFT(event: NFTCreatedEvent): void {
   let nft = new NFTCreated(transactionHash);
   nft.tokenId = event.params.tokenId;
   nft.owner = event.params.owner.toHex();
+  nft.title = event.params.title.toString();
   nft.category = event.params.category.toString();
   nft.price = event.params.price;
   nft.tokenURI = event.params.tokenURI.toString();

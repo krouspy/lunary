@@ -28,6 +28,7 @@ type NFTCreated @entity {
   id: ID!
   tokenId: BigInt!
   owner: String!
+  title: String!
   category: String!
   price: BigInt!
   tokenURI: String!
