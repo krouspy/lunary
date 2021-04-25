@@ -5,6 +5,7 @@ const name = 'NFT';
 const symbol = 'NFT';
 const price = 100;
 const category = ethers.utils.formatBytes32String('art');
+const description = 'description';
 const tokenURI = 'tokenURI';
 
 describe('ERC721', async () => {
@@ -44,17 +45,20 @@ describe('ERC721', async () => {
 
       const totalTokensBefore = await erc721.getTotalTokens();
 
-      await expect(erc721.connect(addr1).createItem(addr1.address, price, category, tokenURI))
+      await expect(
+        erc721.connect(addr1).createItem(addr1.address, price, category, tokenURI, description),
+      )
         .to.emit(erc721, 'NFTCreated')
-        .withArgs(totalTokensBefore, addr1.address, category, price, tokenURI);
+        .withArgs(totalTokensBefore, addr1.address, category, price, tokenURI, description);
 
-      const [itemPrice, itemCategory] = await erc721.getItem(totalTokensBefore);
+      const [itemPrice, itemCategory, itemDescription] = await erc721.getItem(totalTokensBefore);
       const itemURI = await erc721.tokenURI(totalTokensBefore);
       const totalTokensAfter = await erc721.getTotalTokens();
 
       expect(itemPrice).to.equal(price, 'item price not set correctly');
       expect(itemCategory).to.equal(category, 'item category not set correctly');
       expect(itemURI).to.equal(tokenURI, 'item uri not set correctly');
+      expect(itemDescription).to.equal(description, 'item description not set correctly');
       expect(totalTokensBefore).to.equal(
         totalTokensAfter - 1,
         'totalTokens not incremented correctly',

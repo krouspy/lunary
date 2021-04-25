@@ -31,6 +31,7 @@ type NFTCreated @entity {
   category: String!
   price: BigInt!
   tokenURI: String!
+  description: String!
 }
 
 type NFTBought @entity {

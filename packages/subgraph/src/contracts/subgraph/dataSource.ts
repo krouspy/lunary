@@ -56,7 +56,8 @@ export const getERC721DataSource = (name: string, abiName: string, address: stri
       entities: ['ERC721', 'NFTCreated'],
       eventHandlers: [
         {
-          event: 'NFTCreated(indexed uint256,indexed address,indexed bytes32,uint256,string)',
+          event:
+            'NFTCreated(indexed uint256,indexed address,indexed bytes32,uint256,string,string)',
           handler: 'handleCreateNFT',
         },
       ],
